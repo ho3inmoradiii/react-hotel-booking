@@ -1,5 +1,6 @@
 import { createContext, useState, useContext } from "react";
 import {Outlet} from "react-router-dom";
+import Map from "../Map/Map.jsx";
 
 // eslint-disable-next-line react-refresh/only-export-components
 const DataContext = createContext(null);
@@ -14,7 +15,7 @@ export function HotelsLayoutWithContext() {
                 <div className="sidebar">
                     <Outlet/>
                 </div>
-                <div className="mapContainer">{sharedData.length}</div>
+                <Map hotels={sharedData || []} />
             </div>
         </DataContext.Provider>
     )
