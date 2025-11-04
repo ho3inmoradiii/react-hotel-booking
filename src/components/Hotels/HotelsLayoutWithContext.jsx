@@ -8,9 +8,10 @@ export const useSharedData = () => useContext(DataContext);
 
 export function HotelsLayoutWithContext() {
     const [sharedData, setSharedData] = useState(null);
+    const [currentHotel, setCurrentHotel] = useState(null);
 
     return (
-        <DataContext.Provider value={{sharedData, setSharedData}}>
+        <DataContext.Provider value={{sharedData, setSharedData, currentHotel, setCurrentHotel}}>
             <div className="appLayout">
                 <div className="sidebar">
                     <Outlet/>

@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useSharedData } from "../components/Hotels/HotelsLayoutWithContext.jsx";
+import { useParams } from "react-router-dom";
 
 function useFetch(url, query = '') {
+    const { hotelId } = useParams();
     const { setSharedData } = useSharedData();
     const [data, setData] = useState([]);
     const [error, setError] = useState(null);
@@ -17,7 +19,9 @@ function useFetch(url, query = '') {
             try {
                 const response = await axios.get(`${url}?${query}`);
                 setData(response.data);
-                setSharedData(response.data);
+                if (!hotelId) {
+                    setSharedData(response.data);
+                }
             } catch (error) {
                 setError(error)
                 toast(error);

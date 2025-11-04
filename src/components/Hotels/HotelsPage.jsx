@@ -1,12 +1,15 @@
 import { useSearchParams } from "react-router-dom";
 import useFetch from "../../hooks/useFetch.js";
 import { Link } from 'react-router-dom';
+import { useSharedData } from "./HotelsLayoutWithContext.jsx";
 
 
 function HotelsPage() {
     const [searchParams] = useSearchParams();
     const destination = searchParams.get('destination');
     const room = searchParams.get('Room');
+
+    const { currentHotel } = useSharedData();
 
     const {data, isLoading, error} = useFetch('http://localhost:5000/hotels', `q=${destination || ''}&accommodates_gte=${room || 1}`)
 
@@ -17,7 +20,7 @@ function HotelsPage() {
         <div className="searchList">
             <h2>Search results: {data.length}</h2>
             {data.map(hotel => {
-                return <Link to={`/hotels/${hotel.id}?lat=${hotel.latitude}&lng=${hotel.longitude}`} className="searchItem" key={hotel.id}>
+                return <Link to={`/hotels/${hotel.id}?lat=${hotel.latitude}&lng=${hotel.longitude}`} className={`searchItem ${currentHotel === hotel.id ? 'current-hotel' : ''}`} key={hotel.id}>
                     <img src={hotel.picture_url.url} alt={hotel.name}/>
                     <div className="searchItemDesc">
                         <p className="location">{hotel.smart_location}</p>
@@ -27,7 +30,6 @@ function HotelsPage() {
                     </div>
                 </Link>
             })}
-            <div className="searchItem"></div>
         </div>
     </>
 }
