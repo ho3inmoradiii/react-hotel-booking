@@ -5,11 +5,13 @@ import useOutsideClick from "../../hooks/useOutsideClick.js";
 import { forwardRef, useRef } from "react";
 import { DateRange } from "react-date-range";
 import { format } from "date-fns";
+import {createSearchParams, useNavigate, useSearchParams} from "react-router-dom";
 
 function Header() {
+    const [searchParams] = useSearchParams();
     const childRef = useRef(undefined);
     const calendarRef = useRef(undefined);
-    const [destination, setDestination] = useState('');
+    const [destination, setDestination] = useState(searchParams.get('destination') || '');
     const [showDropDown, setShowDropDown] = useState(false);
     const [showCalendar, setShowCalendar] = useState(false);
     const [options, setOptions] = useState({
@@ -24,6 +26,7 @@ function Header() {
             key: "selection",
         },
     ]);
+    const navigate = useNavigate();
 
     const handleDestinationChange = (e) => {
         setDestination(e.target.value)
@@ -40,6 +43,19 @@ function Header() {
     useOutsideClick(childRef, handleShowDropDown);
 
     useOutsideClick(calendarRef, handleShowCalendar);
+
+    const handleNavigateToHotels = () => {
+        const params = {
+            ...options,
+            destination,
+            startDate: format(range[0].startDate, "yyyy-MM-dd"),
+            endDate: format(range[0].endDate, "yyyy-MM-dd"),
+        }
+        navigate({
+            pathname: '/hotels',
+            search: `?${createSearchParams(params)}`
+        })
+    }
 
     const updateOptions = (key, value) => {
         setOptions((prevOption) => ({
@@ -92,7 +108,7 @@ function Header() {
                     <span className="seperator"></span>
                 </div>
                 <div className="headerSearchItem">
-                    <button className="headerSearchBtn">
+                    <button className="headerSearchBtn" onClick={handleNavigateToHotels}>
                         <HiSearch className="headerIcon" />
                     </button>
                 </div>

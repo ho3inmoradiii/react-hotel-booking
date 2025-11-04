@@ -2,7 +2,7 @@ import useFetch from "../../hooks/useFetch.js";
 import LocationItem from "./LocationItem.jsx";
 
 function LocationList() {
-    const { data, isLoading, error } = useFetch('http://localhost:5001/hotels');
+    const { data, isLoading, error } = useFetch('http://localhost:5000/hotels');
 
     if (isLoading) return <div>Data loading...</div>
     if (error) return <div>{error}</div>

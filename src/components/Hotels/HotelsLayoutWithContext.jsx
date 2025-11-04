@@ -1,0 +1,23 @@
+import { createContext, useState, useContext } from "react";
+import {Outlet} from "react-router-dom";
+
+// eslint-disable-next-line react-refresh/only-export-components
+const DataContext = createContext(null);
+export const useSharedData = () => useContext(DataContext);
+
+export function HotelsLayoutWithContext() {
+    const [sharedData, setSharedData] = useState(null);
+
+    return (
+        <DataContext.Provider value={{sharedData, setSharedData}}>
+            <div className="appLayout">
+                <div className="sidebar">
+                    <Outlet/>
+                </div>
+                <div className="mapContainer">{sharedData.length}</div>
+            </div>
+        </DataContext.Provider>
+    )
+}
+
+
