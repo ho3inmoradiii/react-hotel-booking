@@ -6,6 +6,11 @@ import HomePage from "./components/HomePage.jsx";
 import HotelsPage from "./components/Hotels/HotelsPage.jsx";
 import SingleHotel from "./components/Hotels/SingleHotel.jsx";
 import { HotelsLayoutWithContext } from "./components/Hotels/HotelsLayoutWithContext.jsx";
+import { BookmarkLayoutWithContext } from "./components/Bookmarks/BookmarkLayoutWithContext.jsx";
+import BookmarkPage from "./components/Bookmarks/BookmarkPage.jsx";
+import AddBookmark from "./components/Bookmarks/AddBookmark.jsx";
+import SingleBookmark from "./components/Bookmarks/SingleBookmark.jsx";
+
 
 function App() {
   return <>
@@ -18,6 +23,11 @@ function App() {
       <Route path="/hotels" element={<HotelsLayoutWithContext />}>
         <Route index element={<HotelsPage />} />
         <Route path=":hotelId" element={<SingleHotel />} />
+      </Route>
+      <Route path="/bookmark" element={<BookmarkLayoutWithContext />}>
+        <Route index element={<BookmarkPage />} />
+        <Route path="add" element={<AddBookmark />} />
+        <Route path=":bookmarkId" element={<SingleBookmark />} />
       </Route>
     </Routes>
   </>

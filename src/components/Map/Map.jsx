@@ -1,7 +1,9 @@
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import {MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents} from 'react-leaflet';
 import L from 'leaflet';
-import { useSearchParams } from "react-router-dom";
-import {useEffect, useState} from "react";
+import {createSearchParams, useSearchParams} from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -33,6 +35,8 @@ function Map({ hotels }) {
 
             <MapRecenterHandler mapCenter={mapCenter} />
 
+            <LocateMarker />
+
             {/* Loop through the hotels array and create markers */}
             {hotels.map(hotel => (
                 <Marker
@@ -53,14 +57,35 @@ function Map({ hotels }) {
 export default Map;
 
 function MapRecenterHandler({mapCenter}) {
+    const [lat, lng] = mapCenter;
     const map = useMap();
 
-
     useEffect(() => {
-        if (!isNaN(mapCenter[0]) && !isNaN(mapCenter[1])) {
-            map.setView([mapCenter[0], mapCenter[1]], map.getZoom());
+        if (!isNaN(lat) && !isNaN(lng)) {
+            map.setView([lat, lng], map.getZoom());
         }
-    }, [mapCenter[0], mapCenter[1], map]);
+    }, [lat, lng, map]);
 
+    return null;
+}
+
+function LocateMarker() {
+    const navigate = useNavigate();
+
+    const map = useMapEvents({
+        async click(e) {
+            map.setView(e.latlng, map.getZoom());
+            const { lat, lng } = e.latlng;
+
+            const params = {
+                lat,
+                lng,
+            }
+            navigate({
+                pathname: '/bookmark/add',
+                search: `?${createSearchParams(params)}`
+            });
+        },
+    });
     return null;
 }

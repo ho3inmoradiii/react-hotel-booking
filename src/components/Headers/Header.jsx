@@ -1,11 +1,11 @@
 import { MdLocationPin } from "react-icons/md";
-import {HiCalendar, HiMinus, HiPlus, HiSearch} from "react-icons/hi";
-import {useState} from "react";
+import { HiCalendar, HiMinus, HiPlus, HiSearch } from "react-icons/hi";
+import { useState } from "react";
 import useOutsideClick from "../../hooks/useOutsideClick.js";
 import { forwardRef, useRef } from "react";
 import { DateRange } from "react-date-range";
 import { format } from "date-fns";
-import {createSearchParams, useNavigate, useSearchParams} from "react-router-dom";
+import { createSearchParams, useNavigate, useSearchParams } from "react-router-dom";
 
 function Header() {
     const [searchParams] = useSearchParams();

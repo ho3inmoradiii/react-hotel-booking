@@ -9,9 +9,9 @@ function HotelsPage() {
     const destination = searchParams.get('destination');
     const room = searchParams.get('Room');
 
-    const { currentHotel } = useSharedData();
+    const { setSharedData, currentHotel } = useSharedData();
 
-    const {data, isLoading, error} = useFetch('http://localhost:5000/hotels', `q=${destination || ''}&accommodates_gte=${room || 1}`)
+    const {data, isLoading, error} = useFetch('http://localhost:5000/hotels', `q=${destination || ''}&accommodates_gte=${room || 1}`, setSharedData)
 
     if (isLoading) return <div>Data loading...</div>
     if (error) return <div>{error}</div>
